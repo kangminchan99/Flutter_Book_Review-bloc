@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662455682381",
+    "project_id": "mc-naver-book-review",
+    "storage_bucket": "mc-naver-book-review.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662455682381:android:f82e5498b6f5700a07a304",
+        "android_client_info": {
+          "package_name": "com.minchan.bookreview"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7v6dOqAlg_NtMf5lVWUZkRZkdWDPs54Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

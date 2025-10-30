@@ -2,8 +2,11 @@ import 'package:bookreview/src/core/router/router.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(const BookReviewApp());
 }
 
