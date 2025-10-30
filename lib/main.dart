@@ -1,39 +1,36 @@
-import 'package:bookreview/src/core/router/router.dart';
-import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/core/injections.dart';
+import 'package:bookreview/src/features/search_book/data/data_sources/remote/search_book_impl_api.dart';
+import 'package:bookreview/src/features/search_book/domain/model/search_book_params.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  await initInjections();
   runApp(const BookReviewApp());
 }
 
 class BookReviewApp extends StatelessWidget {
   const BookReviewApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // MultiRepositoryProvider - 앱에서 사용하는 모든 repository를 등록
-    return MultiRepositoryProvider(
-      providers: [],
-      // MultiBlocProvider - 앱에서 사용하는 모든 bloc을 등록
-      child: MultiBlocProvider(
-        providers: [],
-        child: MaterialApp.router(
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              elevation: 0,
-              backgroundColor: AppColors.backgroundColor,
-              titleTextStyle: TextStyle(color: AppColors.white),
-            ),
-            scaffoldBackgroundColor: AppColors.backgroundColor,
-          ),
-          routerConfig: router,
-        ),
+    return FutureBuilder(
+      future: sl<SearchBookImplApi>().searchNaverBooks(
+        const SearchBookParams.init(query: '플러터'),
       ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return MaterialApp(
+            home: Scaffold(
+              appBar: AppBar(title: const Text('Book Review App')),
+              body: Center(child: Text('Search Result: ${snapshot.data}')),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }
