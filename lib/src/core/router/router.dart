@@ -1,7 +1,13 @@
-import 'package:bookreview/src/features/splash/presentation/pages/splash_page.dart';
+import 'package:bookreview/src/shared/presentation/pages/root_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
-  initialLocation: '/',
-  routes: [GoRoute(path: '/', builder: (context, state) => const SplashPage())],
+  initialLocation: RootPage.routerPath,
+  routes: [
+    GoRoute(
+      path: RootPage.routerPath,
+      name: RootPage.routerName,
+      builder: (context, state) => const RootPage(),
+    ),
+  ],
 );

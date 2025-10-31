@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashPage extends StatelessWidget {
+  static const String routerName = 'splash';
+  static const String routerPath = '/splash';
   const SplashPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
