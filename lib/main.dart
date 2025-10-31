@@ -2,8 +2,11 @@ import 'package:bookreview/firebase_options.dart';
 import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/router/router.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/features/splash/presentation/cubit/splash_cubit.dart';
+import 'package:bookreview/src/shared/presentation/cubit/app_data_load_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -11,7 +14,18 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
   await initInjections();
-  runApp(const BookReviewApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<SplashCubit>(create: (context) => sl<SplashCubit>()),
+        BlocProvider<AppDataLoadCubit>(
+          create: (context) => sl<AppDataLoadCubit>(),
+          lazy: false,
+        ),
+      ],
+      child: const BookReviewApp(),
+    ),
+  );
 }
 
 class BookReviewApp extends StatelessWidget {
