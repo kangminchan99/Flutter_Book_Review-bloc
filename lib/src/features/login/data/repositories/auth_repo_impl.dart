@@ -1,14 +1,14 @@
 import 'package:bookreview/src/core/helper/helper.dart';
-import 'package:bookreview/src/features/login/data/data_sources/remote/abstract_auth_api.dart';
 import 'package:bookreview/src/features/login/domain/model/user_model.dart';
+import 'package:bookreview/src/features/login/domain/repositories/abstract_auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class AuthImplApi extends AbstractAuthApi {
+class AuthRepoImpl extends AbstractAuthRepo {
   final FirebaseAuth _firebaseAuth;
 
-  AuthImplApi(this._firebaseAuth);
+  AuthRepoImpl(this._firebaseAuth);
 
   @override
   Stream<UserModel?> get user {
@@ -69,9 +69,11 @@ class AuthImplApi extends AbstractAuthApi {
     );
 
     // Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential = OAuthProvider(
-      "apple.com",
-    ).credential(idToken: appleCredential.identityToken, rawNonce: rawNonce);
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      rawNonce: rawNonce,
+      accessToken: appleCredential.authorizationCode,
+    );
 
     // Sign in the user with Firebase. If the nonce we generated earlier does
     // not match the nonce in `appleCredential.identityToken`, sign in will fail.

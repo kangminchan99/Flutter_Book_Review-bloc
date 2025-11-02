@@ -13,4 +13,7 @@ class UserModel extends Equatable {
 
   @override
   List<Object?> get props => [uid, email, name];
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }

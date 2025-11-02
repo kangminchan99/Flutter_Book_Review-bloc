@@ -1,5 +1,6 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:bookreview/src/shared/domain/entities/common_state_status_enum.dart';
 import 'package:bookreview/src/shared/presentation/cubit/app_data_load_cubit.dart';
@@ -19,6 +20,7 @@ class SplashPage extends StatelessWidget {
             current.status == CommonStateStatus.loaded,
         listener: (context, state) {
           context.read<SplashCubit>().changeLoadStatus(LoadStatus.authCheck);
+          context.read<AuthCubit>().init();
         },
         child: SafeArea(
           top: false,

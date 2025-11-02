@@ -12,7 +12,20 @@
           "package_name": "com.minchan.bookreview"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "662455682381-qq59vqkqv4hd6o4tsngvi7s0n666qhde.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.minchan.bookreview",
+            "certificate_hash": "09794653bb1e815a23511dc8aeaeb752e33db0a6"
+          }
+        },
+        {
+          "client_id": "662455682381-6eotg6tn1ajfdda567pf8itqs8g7n75k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC7v6dOqAlg_NtMf5lVWUZkRZkdWDPs54Y"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662455682381-6eotg6tn1ajfdda567pf8itqs8g7n75k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "662455682381-1gsrk59siionkbsou8k3b5nhmahh91oh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.minchan.bookreview"
+              }
+            }
+          ]
         }
       }
     }

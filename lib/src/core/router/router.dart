@@ -3,7 +3,7 @@ import 'package:bookreview/src/shared/presentation/pages/root_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
-  initialLocation: LoginPage.routerPath,
+  initialLocation: RootPage.routerPath,
   routes: [
     GoRoute(
       path: RootPage.routerPath,

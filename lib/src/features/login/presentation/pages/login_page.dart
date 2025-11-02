@@ -1,8 +1,10 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
 import 'package:bookreview/src/shared/presentation/widgets/login_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   static const String routerName = 'login';
@@ -50,7 +52,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: 40),
                         LoginButtonWidget(
-                          onTap: () {},
+                          onTap: context.read<AuthCubit>().googleLogin,
                           title: 'Google로 계속하기',
                           imgPath: 'assets/svg/icons/google_logo.svg',
                           backgroundColor: AppColors.white,
@@ -58,7 +60,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         LoginButtonWidget(
-                          onTap: () {},
+                          onTap: context.read<AuthCubit>().appleLogin,
                           title: 'Apple로 계속하기',
                           imgPath: 'assets/svg/icons/apple_logo.svg',
                           backgroundColor: AppColors.black,
