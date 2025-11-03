@@ -10,7 +10,7 @@ initAppInjections() {
   sl.registerFactory<SplashCubit>(() => SplashCubit());
   sl.registerFactory<AppDataLoadCubit>(() => AppDataLoadCubit());
   sl.registerFactory<InitCubit>(() => InitCubit());
-  sl.registerFactory<AuthCubit>(
+  sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(sl<AbstractAuthRepo>(), sl<AbstractUserRepo>()),
   );
 }

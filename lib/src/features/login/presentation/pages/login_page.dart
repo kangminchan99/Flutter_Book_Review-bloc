@@ -19,7 +19,16 @@ class LoginPage extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset('assets/images/splash_bg.png', fit: BoxFit.cover),
+            Positioned.fill(
+              child: Transform.scale(
+                scale: 1.5,
+                child: Image.asset(
+                  'assets/images/splash_bg.png',
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.high,
+                ),
+              ),
+            ),
             Container(
               color: AppColors.black.withValues(alpha: 0.6),
               child: SafeArea(
