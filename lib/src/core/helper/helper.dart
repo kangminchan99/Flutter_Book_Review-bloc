@@ -2,8 +2,10 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/core/utils/constant/config.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 
 class Helper {
   // dio header
@@ -32,5 +34,11 @@ class Helper {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString();
+  }
+
+  static customSnackBar(String message, BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message, style: AppTextStyle.xLargeWhiteBold)),
+    );
   }
 }

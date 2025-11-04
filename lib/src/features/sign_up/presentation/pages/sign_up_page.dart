@@ -1,4 +1,6 @@
+import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:bookreview/src/features/sign_up/presentation/widgets/user_info_field.dart';
 import 'package:bookreview/src/features/sign_up/presentation/widgets/user_profile_img_field.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
@@ -30,7 +32,12 @@ class SignUpPage extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: MainButtonWidget(onTap: () {}, title: '가입'),
+                child: MainButtonWidget(
+                  onTap: () {
+                    sl<SignUpCubit>().save(context);
+                  },
+                  title: '가입',
+                ),
               ),
               SizedBox(width: 10),
               Expanded(

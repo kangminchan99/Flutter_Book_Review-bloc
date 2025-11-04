@@ -6,11 +6,17 @@ enum SignUpTextFieldType { nickname, description }
 
 class SignUpTextField extends StatelessWidget {
   final SignUpTextFieldType type;
-  const SignUpTextField({super.key, required this.type});
+  final void Function(String) onChanged;
+  const SignUpTextField({
+    super.key,
+    required this.type,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       cursorColor: AppColors.white,
       textAlign: TextAlign.center,
       style: AppTextStyle.xLargeWhite.copyWith(
