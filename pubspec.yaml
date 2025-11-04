@@ -53,6 +53,7 @@ dependencies:
   sign_in_with_apple: ^7.0.1
   crypto: ^3.0.6
   dartz: ^0.10.1
+  image_picker: ^1.2.0
 
 dev_dependencies:
   flutter_test:
