@@ -16,7 +16,6 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
 
   // splash 화면에서 auth 상태를 체크할 때 구독
   void init() {
-    _authRepo.signOut();
     _authRepo.user.listen((user) {
       _userStateChangedEvent(user);
     });

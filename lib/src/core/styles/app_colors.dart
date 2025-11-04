@@ -7,4 +7,6 @@ class AppColors {
   static const gray = Color(0xFF878787);
   static const backgroundColor = Color(0xff1C1C1C);
   static const btnBackgroundColor = Color(0xFFF4AA2B);
+  static const defaultBtnBackgroundColor = Color(0xFF212121);
+  static const textFieldBackgroundColor = Color(0xFF232323);
 }

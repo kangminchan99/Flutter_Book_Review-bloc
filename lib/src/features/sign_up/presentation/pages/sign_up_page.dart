@@ -1,5 +1,10 @@
+import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/features/sign_up/presentation/widgets/user_info_field.dart';
+import 'package:bookreview/src/features/sign_up/presentation/widgets/user_profile_img_field.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
+import 'package:bookreview/src/shared/presentation/widgets/main_button_widget.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SignUpPage extends StatelessWidget {
   static const String routerPath = '/sign_up';
@@ -8,6 +13,47 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(child: Center(child: Text('Sign Up Page')));
+    return DefaultLayout(
+      appBarTitle: '',
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+          child: GestureDetector(
+            onTap: () {},
+            child: SvgPicture.asset('assets/svg/icons/icon_close.svg'),
+          ),
+        ),
+      ],
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: MainButtonWidget(onTap: () {}, title: '가입'),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: MainButtonWidget(
+                  onTap: () {},
+                  title: '취소',
+                  backgroundColor: AppColors.defaultBtnBackgroundColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            UserProfileImgField(),
+            SizedBox(height: 50),
+            UserInfoField(),
+          ],
+        ),
+      ),
+    );
   }
 }

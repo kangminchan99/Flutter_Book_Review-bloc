@@ -5,7 +5,13 @@ import 'package:flutter/material.dart';
 class MainButtonWidget extends StatelessWidget {
   final void Function() onTap;
   final String title;
-  const MainButtonWidget({super.key, required this.onTap, required this.title});
+  final Color? backgroundColor;
+  const MainButtonWidget({
+    super.key,
+    required this.onTap,
+    required this.title,
+    this.backgroundColor = AppColors.btnBackgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +21,11 @@ class MainButtonWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
-          color: AppColors.btnBackgroundColor,
+          color: backgroundColor ?? AppColors.btnBackgroundColor,
         ),
         child: Text(
           title,
-          style: AppTextStyle.xLargeWhiteBold,
+          style: AppTextStyle.xLargeWhite,
           textAlign: TextAlign.center,
         ),
       ),
