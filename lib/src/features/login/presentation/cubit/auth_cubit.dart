@@ -37,6 +37,10 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
     notifyListeners();
   }
 
+  void reloadAuth() {
+    _userStateChangedEvent(state.user);
+  }
+
   Future<void> googleLogin() async {
     await _authRepo.signInWithGoogle();
   }

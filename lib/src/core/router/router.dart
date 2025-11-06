@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bookreview/src/core/injections.dart';
+import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
 import 'package:bookreview/src/features/sign_up/presentation/pages/sign_up_page.dart';
@@ -17,7 +18,7 @@ final router = GoRouter(
       case AuthStatus.init:
         break;
       case AuthStatus.authenticated:
-        break;
+        return HomePage.routerPath;
       case AuthStatus.unauthenticated:
         return SignUpPage.routerPath;
       case AuthStatus.unknown:
@@ -37,6 +38,11 @@ final router = GoRouter(
       path: LoginPage.routerPath,
       name: LoginPage.routerName,
       builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: HomePage.routerPath,
+      name: HomePage.routerName,
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
       path: SignUpPage.routerPath,

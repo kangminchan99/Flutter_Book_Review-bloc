@@ -1,5 +1,7 @@
 import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
+import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:bookreview/src/features/sign_up/presentation/widgets/progress_loading.dart';
 import 'package:bookreview/src/features/sign_up/presentation/widgets/user_info_field.dart';
@@ -10,6 +12,7 @@ import 'package:bookreview/src/shared/presentation/widgets/main_button_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatelessWidget {
   static const String routerPath = '/sign_up';
@@ -37,6 +40,7 @@ class SignUpPage extends StatelessWidget {
                 );
                 break;
               case SignUpStatus.success:
+                sl<AuthCubit>().reloadAuth();
                 break;
               case SignUpStatus.fail:
                 break;
