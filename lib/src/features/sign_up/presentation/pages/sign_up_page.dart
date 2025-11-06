@@ -7,7 +7,7 @@ import 'package:bookreview/src/features/sign_up/presentation/widgets/user_profil
 import 'package:bookreview/src/shared/presentation/cubit/upload_cubit.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
 import 'package:bookreview/src/shared/presentation/widgets/main_button_widget.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -84,13 +84,34 @@ class SignUpPage extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: MainButtonWidget(
-                        onTap: () {
-                          sl<SignUpCubit>().save(context);
-                        },
-                        title: '가입',
-                      ),
+                    // Expanded(
+                    //   child: MainButtonWidget(
+                    //     onTap: () {
+                    //       sl<SignUpCubit>().state.status == SignUpStatus.loading
+                    //           ? null
+                    //           : sl<SignUpCubit>().save(context);
+                    //     },
+                    //     backgroundColor:
+                    //         sl<SignUpCubit>().state.status ==
+                    //             SignUpStatus.loading
+                    //         ? Colors.red
+                    //         : Colors.green,
+                    //     title: '가입',
+                    //   ),
+                    // ),
+                    BlocSelector<SignUpCubit, SignUpState, bool>(
+                      selector: (s) => s.status == SignUpStatus.loading,
+                      builder: (context, isLoading) {
+                        return Expanded(
+                          child: MainButtonWidget(
+                            onTap: isLoading
+                                ? null
+                                : () => sl<SignUpCubit>().save(context),
+                            title: isLoading ? '가입 중...' : '가입',
+                            backgroundColor: !isLoading ? null : AppColors.gray,
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(width: 10),
                     Expanded(

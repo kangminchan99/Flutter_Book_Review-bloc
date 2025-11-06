@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bookreview/src/core/helper/helper.dart';
 import 'package:bookreview/src/features/login/domain/model/user_model.dart';
+import 'package:bookreview/src/features/login/domain/repositories/abstract_user_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,9 @@ import 'package:image_picker/image_picker.dart';
 enum SignUpStatus { init, loading, uploading, success, fail }
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(UserModel userModel) : super(SignUpState(userModel: userModel));
+  final AbstractUserRepo _userRepo;
+  SignUpCubit(UserModel userModel, this._userRepo)
+    : super(SignUpState(userModel: userModel));
 
   void changeProfileImage(XFile? image) {
     if (image == null) return;
@@ -32,18 +35,37 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(
       state.copyWith(userModel: updatedUserModel, status: SignUpStatus.loading),
     );
+    submit();
   }
 
-  void save(BuildContext context) {
+  void save(BuildContext context) async {
     if (state.nickname == null || state.nickname!.isEmpty) {
       Helper.customSnackBar('닉네임을 입력하세요', context);
       return;
     }
     emit(state.copyWith(status: SignUpStatus.loading));
+    await Future.delayed(Duration(seconds: 3));
 
     if (state.profileImage != null) {
       emit(state.copyWith(status: SignUpStatus.uploading));
-    } else {}
+    } else {
+      submit();
+    }
+  }
+
+  // firebase에 저장
+  void submit() async {
+    var joinUserModel = state.userModel!.copyWith(
+      name: state.nickname,
+      description: state.description,
+    );
+
+    var result = await _userRepo.joinUser(joinUserModel);
+    if (result) {
+      emit(state.copyWith(status: SignUpStatus.success));
+    } else {
+      emit(state.copyWith(status: SignUpStatus.fail));
+    }
   }
 
   void uploadProgress(String progress) {

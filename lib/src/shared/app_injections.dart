@@ -18,7 +18,7 @@ initAppInjections() {
     () => AuthCubit(sl<AbstractAuthRepo>(), sl<AbstractUserRepo>()),
   );
   sl.registerLazySingleton<SignUpCubit>(
-    () => SignUpCubit(sl<AuthCubit>().state.user!),
+    () => SignUpCubit(sl<AuthCubit>().state.user!, sl<AbstractUserRepo>()),
   );
   sl.registerLazySingleton<UploadCubit>(() => UploadCubit(storage));
 }

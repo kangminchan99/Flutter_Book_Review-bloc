@@ -9,12 +9,14 @@ class UserModel extends Equatable {
   final String? email;
   final String? name;
   final String? profile;
+  final String? description;
 
   const UserModel({
     required this.uid,
     required this.email,
     required this.name,
     this.profile,
+    this.description,
   });
 
   UserModel copyWith({
@@ -22,18 +24,22 @@ class UserModel extends Equatable {
     String? email,
     String? name,
     String? profile,
+    String? description,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
       email: email ?? this.email,
       name: name ?? this.name,
       profile: profile ?? this.profile,
+      description: description ?? this.description,
     );
   }
 
   @override
-  List<Object?> get props => [uid, email, name, profile];
+  List<Object?> get props => [uid, email, name, profile, description];
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
+
+  Map<String, dynamic> toMap() => _$UserModelToJson(this);
 }

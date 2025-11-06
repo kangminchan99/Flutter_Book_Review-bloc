@@ -3,7 +3,7 @@ import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class MainButtonWidget extends StatelessWidget {
-  final void Function() onTap;
+  final void Function()? onTap;
   final String title;
   final Color? backgroundColor;
   const MainButtonWidget({
