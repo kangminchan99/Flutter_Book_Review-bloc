@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class DefaultLayout extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
-  final String? appBarTitle;
+  final Widget? appBarTitle;
   final Widget? bottomNavigationBar;
   final Widget? floactingActionButton;
   final List<Widget>? actions;
+  final Widget? leading;
+  final bool? centerTitle;
 
   const DefaultLayout({
     super.key,
@@ -17,6 +19,8 @@ class DefaultLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.floactingActionButton,
     this.actions,
+    this.leading,
+    this.centerTitle,
   });
 
   @override
@@ -35,8 +39,10 @@ class DefaultLayout extends StatelessWidget {
       return null;
     }
     return AppBar(
-      title: Text(appBarTitle!),
-      centerTitle: true,
+      title: appBarTitle,
+      foregroundColor: AppColors.white,
+      leading: leading,
+      centerTitle: centerTitle,
       actions: actions,
     );
   }

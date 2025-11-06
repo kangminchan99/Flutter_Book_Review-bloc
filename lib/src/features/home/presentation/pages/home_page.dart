@@ -1,5 +1,12 @@
+import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
+import 'package:bookreview/src/features/search/presentation/pages/search_page.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
-import 'package:flutter/widgets.dart';
+import 'package:bookreview/src/shared/presentation/widgets/custom_text_field_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   static const String routerPath = '/home';
@@ -8,6 +15,40 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(child: Center(child: Text('Home Page')));
+    return DefaultLayout(
+      appBarTitle: Padding(
+        padding: const EdgeInsets.all(10),
+        child: BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            return Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: AppColors.gray,
+                  backgroundImage: state.user?.profile == null
+                      ? Image.asset('assets/images/default_avatar.png').image
+                      : NetworkImage(state.user!.profile!),
+                ),
+                SizedBox(width: 10),
+                Text(state.user?.name ?? '', style: AppTextStyle.mediumWhite),
+              ],
+            );
+          },
+        ),
+      ),
+      centerTitle: false,
+      child: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          children: [
+            CustomTextFieldWidget(
+              isEnabled: false,
+              onTap: () {
+                context.pushNamed(SearchPage.routerName);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

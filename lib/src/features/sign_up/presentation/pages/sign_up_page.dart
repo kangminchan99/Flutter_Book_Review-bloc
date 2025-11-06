@@ -1,6 +1,5 @@
 import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
-import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:bookreview/src/features/sign_up/presentation/widgets/progress_loading.dart';
@@ -12,7 +11,6 @@ import 'package:bookreview/src/shared/presentation/widgets/main_button_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatelessWidget {
   static const String routerPath = '/sign_up';
@@ -70,7 +68,7 @@ class SignUpPage extends StatelessWidget {
       child: Stack(
         children: [
           DefaultLayout(
-            appBarTitle: '',
+            appBarTitle: Text(''),
             actions: [
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -88,21 +86,6 @@ class SignUpPage extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
                   children: [
-                    // Expanded(
-                    //   child: MainButtonWidget(
-                    //     onTap: () {
-                    //       sl<SignUpCubit>().state.status == SignUpStatus.loading
-                    //           ? null
-                    //           : sl<SignUpCubit>().save(context);
-                    //     },
-                    //     backgroundColor:
-                    //         sl<SignUpCubit>().state.status ==
-                    //             SignUpStatus.loading
-                    //         ? Colors.red
-                    //         : Colors.green,
-                    //     title: '가입',
-                    //   ),
-                    // ),
                     BlocSelector<SignUpCubit, SignUpState, bool>(
                       selector: (s) => s.status == SignUpStatus.loading,
                       builder: (context, isLoading) {
