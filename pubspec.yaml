@@ -54,6 +54,7 @@ dependencies:
   crypto: ^3.0.6
   dartz: ^0.10.1
   image_picker: ^1.2.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

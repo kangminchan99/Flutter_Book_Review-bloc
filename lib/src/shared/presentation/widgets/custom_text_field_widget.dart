@@ -6,7 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CustomTextFieldWidget extends StatelessWidget {
   final bool isEnabled;
   final void Function()? onTap;
-  const CustomTextFieldWidget({super.key, this.isEnabled = true, this.onTap});
+  final void Function(String value)? onSubmitted;
+  const CustomTextFieldWidget({
+    super.key,
+    this.isEnabled = true,
+    this.onTap,
+    this.onSubmitted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +25,12 @@ class CustomTextFieldWidget extends StatelessWidget {
           color: AppColors.textFieldBackgroundColor,
         ),
         child: Row(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset('assets/svg/icons/icon_search.svg'),
-            // SizedBox(width: 10),
-            // Text('검색어를 입력해주세요', style: AppTextStyle.largeWhite),
             Expanded(
               child: TextField(
+                style: TextStyle(color: AppColors.white),
+                onSubmitted: onSubmitted,
                 decoration: InputDecoration(
                   hintText: '검색어를 입력해주세요',
                   hintStyle: AppTextStyle.largeWhite.copyWith(

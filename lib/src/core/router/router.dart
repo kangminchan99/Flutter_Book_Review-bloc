@@ -2,9 +2,12 @@ import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
-import 'package:bookreview/src/features/search/presentation/pages/search_page.dart';
+import 'package:bookreview/src/features/search_book/domain/repositories/abstract_search_book_repo.dart';
+import 'package:bookreview/src/features/search_book/presentation/cubit/search_book_cubit.dart';
+import 'package:bookreview/src/features/search_book/presentation/pages/search_book_page.dart';
 import 'package:bookreview/src/features/sign_up/presentation/pages/sign_up_page.dart';
 import 'package:bookreview/src/shared/presentation/pages/root_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -50,9 +53,12 @@ final router = GoRouter(
       builder: (context, state) => const HomePage(),
     ),
     GoRoute(
-      path: SearchPage.routerPath,
-      name: SearchPage.routerName,
-      builder: (context, state) => const SearchPage(),
+      path: SearchBookPage.routerPath,
+      name: SearchBookPage.routerName,
+      builder: (context, state) => BlocProvider(
+        create: (context) => SearchBookCubit(sl<AbstractSearchBookRepo>()),
+        child: const SearchBookPage(),
+      ),
     ),
     GoRoute(
       path: SignUpPage.routerPath,

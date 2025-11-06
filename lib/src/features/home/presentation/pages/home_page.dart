@@ -1,7 +1,7 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
-import 'package:bookreview/src/features/search/presentation/pages/search_page.dart';
+import 'package:bookreview/src/features/search_book/presentation/pages/search_book_page.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
 import 'package:bookreview/src/shared/presentation/widgets/custom_text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
             CustomTextFieldWidget(
               isEnabled: false,
               onTap: () {
-                context.pushNamed(SearchPage.routerName);
+                context.pushNamed(SearchBookPage.routerName);
               },
             ),
           ],
