@@ -23,7 +23,6 @@ class _ResponseDataWidgetState extends State<ResponseDataWidget> {
     controller.addListener(() {
       if (controller.offset > controller.position.maxScrollExtent - 200 &&
           widget.cubit.state.status == CommonStateStatus.loaded) {
-        print('call next page');
         widget.cubit.paginateBooks();
       }
     });

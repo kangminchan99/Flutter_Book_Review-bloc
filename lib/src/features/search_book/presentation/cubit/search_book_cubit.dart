@@ -9,6 +9,7 @@ class SearchBookCubit extends Cubit<SearchBookState> {
   final AbstractSearchBookRepo _searchBookRepo;
   SearchBookCubit(this._searchBookRepo) : super(SearchBookState());
 
+  // 초기 검색 시 호출하는 메서드
   void searchBooks(String query) async {
     emit(
       state.copyWith(
@@ -17,6 +18,7 @@ class SearchBookCubit extends Cubit<SearchBookState> {
         searchBookParams: SearchBookParams.init(query: query),
       ),
     );
+    // 페이지 네이트 처리를 위해 별도 메서드로 분리해서 이것만 호출
     searchBooksApi();
   }
 
