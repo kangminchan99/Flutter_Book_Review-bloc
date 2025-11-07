@@ -10,4 +10,5 @@ class AppColors {
   static const defaultBtnBackgroundColor = Color(0xFF212121);
   static const textFieldBackgroundColor = Color(0xFF232323);
   static const dividerColor = Color(0xFF262626);
+  static const doubleDividerColor = Color(0xFF323232);
 }
