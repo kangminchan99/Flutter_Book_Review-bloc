@@ -1,1 +1,1 @@
-enum CommonStateStatus { init, loading, loaded, error }
+enum CommonStateStatus { init, loading, loaded, error, complete }

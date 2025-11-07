@@ -25,6 +25,20 @@ class SearchBookParams extends Equatable {
 
   const SearchBookParams({this.query, this.display, this.start, this.sort});
 
+  SearchBookParams copyWith({
+    String? query,
+    int? display,
+    int? start,
+    NaverBookSortType? sort,
+  }) {
+    return SearchBookParams(
+      query: query ?? this.query,
+      display: display ?? this.display,
+      start: start ?? this.start,
+      sort: sort ?? this.sort,
+    );
+  }
+
   @override
   List<Object?> get props => [query, display, start, sort];
 

@@ -10,40 +10,81 @@ class SearchBookCubit extends Cubit<SearchBookState> {
   SearchBookCubit(this._searchBookRepo) : super(SearchBookState());
 
   void searchBooks(String query) async {
-    emit(state.copyWith(status: CommonStateStatus.loading));
-    var searchParams = SearchBookParams(
-      query: query,
-      display: 10,
-      start: 1,
-      sort: NaverBookSortType.date,
+    emit(
+      state.copyWith(
+        status: CommonStateStatus.loading,
+        response: const SearchBookApiResponse.init(),
+        searchBookParams: SearchBookParams.init(query: query),
+      ),
     );
-    var result = await _searchBookRepo.searchNaverBooks(searchParams);
+    searchBooksApi();
+  }
+
+  void searchBooksApi() async {
+    var result = await _searchBookRepo.searchNaverBooks(
+      state.searchBookParams!,
+    );
+
     result.fold(
       (failure) {
         emit(state.copyWith(status: CommonStateStatus.error, response: null));
       },
       (data) {
-        emit(state.copyWith(status: CommonStateStatus.loaded, response: data));
+        // 데이터가 없거나 마지막 아이템인 경우
+        if (data.start! > data.total! || data.items!.isEmpty) {
+          emit(state.copyWith(status: CommonStateStatus.complete));
+        } else {
+          emit(
+            state.copyWith(
+              status: CommonStateStatus.loaded,
+              response: state.response!.copyWith(
+                items: data.items,
+                total: data.total,
+                start: data.start,
+                display: data.display,
+              ),
+            ),
+          );
+        }
       },
     );
+  }
+
+  void paginateBooks() async {
+    emit(
+      state.copyWith(
+        status: CommonStateStatus.loading,
+        searchBookParams: state.searchBookParams!.copyWith(
+          start: state.response!.start! + state.response!.display!,
+        ),
+      ),
+    );
+    searchBooksApi();
   }
 }
 
 class SearchBookState extends Equatable {
   final CommonStateStatus status;
   final SearchBookApiResponse? response;
-  const SearchBookState({this.status = CommonStateStatus.init, this.response});
+  final SearchBookParams? searchBookParams;
+  const SearchBookState({
+    this.status = CommonStateStatus.init,
+    this.response = const SearchBookApiResponse.init(),
+    this.searchBookParams = const SearchBookParams.init(query: ''),
+  });
 
   SearchBookState copyWith({
     CommonStateStatus? status,
     SearchBookApiResponse? response,
+    SearchBookParams? searchBookParams,
   }) {
     return SearchBookState(
       status: status ?? this.status,
       response: response ?? this.response,
+      searchBookParams: searchBookParams ?? this.searchBookParams,
     );
   }
 
   @override
-  List<Object?> get props => [status, response];
+  List<Object?> get props => [status, response, searchBookParams];
 }

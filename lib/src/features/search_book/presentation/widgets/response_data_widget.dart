@@ -1,34 +1,49 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/search_book/presentation/cubit/search_book_cubit.dart';
+import 'package:bookreview/src/shared/domain/entities/common_state_status_enum.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class ResponseDataWidget extends StatelessWidget {
+class ResponseDataWidget extends StatefulWidget {
   final SearchBookCubit cubit;
+
   const ResponseDataWidget({super.key, required this.cubit});
 
   @override
-  Widget build(BuildContext context) {
-    // 1) null-safe 가드
-    final items = cubit.state.response?.items ?? const [];
+  State<ResponseDataWidget> createState() => _ResponseDataWidgetState();
+}
 
-    // 2) 빈 목록 처리 (상위에서 처리한다면 이 부분은 제거)
-    if (items.isEmpty) {
-      return const SizedBox.shrink();
-      // 또는: return const EmptyViewWidget();
-    }
+class _ResponseDataWidgetState extends State<ResponseDataWidget> {
+  ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.offset > controller.position.maxScrollExtent - 200 &&
+          widget.cubit.state.status == CommonStateStatus.loaded) {
+        print('call next page');
+        widget.cubit.paginateBooks();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final items = widget.cubit.state.response?.items;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: ListView.separated(
-        itemCount: items.length,
+        controller: controller,
+        itemCount: items?.length ?? 0,
         separatorBuilder: (context, index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Divider(color: AppColors.dividerColor),
         ),
         itemBuilder: (context, index) {
-          final item = items[index];
+          final item = items![index];
           final imageUrl = item.image;
 
           return Row(
