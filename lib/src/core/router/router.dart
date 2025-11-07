@@ -3,6 +3,7 @@ import 'package:bookreview/src/features/book_info/presentation/pages/book_info_p
 import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
+import 'package:bookreview/src/features/review/presentation/pages/review_page.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
 import 'package:bookreview/src/features/search_book/domain/repositories/abstract_search_book_repo.dart';
 import 'package:bookreview/src/features/search_book/presentation/cubit/search_book_cubit.dart';
@@ -58,6 +59,12 @@ final router = GoRouter(
       path: BookInfoPage.routerPath,
       name: BookInfoPage.routerName,
       builder: (context, state) => BookInfoPage(state.extra as SearchBookModel),
+    ),
+    GoRoute(
+      path: ReviewPage.routerPath,
+      name: ReviewPage.routerName,
+      builder: (context, state) =>
+          ReviewPage(book: state.extra as SearchBookModel),
     ),
     GoRoute(
       path: SearchBookPage.routerPath,
