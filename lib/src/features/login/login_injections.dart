@@ -6,8 +6,7 @@ import 'package:bookreview/src/features/login/domain/repositories/abstract_user_
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-initLoginInjections() {
-  var db = FirebaseFirestore.instance;
+initLoginInjections({required FirebaseFirestore db}) {
   sl.registerSingleton<AbstractAuthRepo>(AuthRepoImpl(FirebaseAuth.instance));
   sl.registerSingleton<AbstractUserRepo>(UserRepoImpl(db));
 }

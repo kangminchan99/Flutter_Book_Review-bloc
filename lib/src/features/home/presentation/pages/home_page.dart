@@ -1,3 +1,4 @@
+import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
@@ -20,17 +21,20 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
-            return Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: AppColors.gray,
-                  backgroundImage: state.user?.profile == null
-                      ? Image.asset('assets/images/default_avatar.png').image
-                      : NetworkImage(state.user!.profile!),
-                ),
-                SizedBox(width: 10),
-                Text(state.user?.name ?? '', style: AppTextStyle.mediumWhite),
-              ],
+            return GestureDetector(
+              onTap: sl<AuthCubit>().logout,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: AppColors.gray,
+                    backgroundImage: state.user?.profile == null
+                        ? Image.asset('assets/images/default_avatar.png').image
+                        : NetworkImage(state.user!.profile!),
+                  ),
+                  SizedBox(width: 10),
+                  Text(state.user?.name ?? '', style: AppTextStyle.mediumWhite),
+                ],
+              ),
             );
           },
         ),

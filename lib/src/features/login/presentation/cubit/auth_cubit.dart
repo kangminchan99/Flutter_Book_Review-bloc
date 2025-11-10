@@ -49,6 +49,10 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
     await _authRepo.signInWithApple();
   }
 
+  void logout() async {
+    await _authRepo.signOut();
+  }
+
   @override
   void onChange(Change<AuthState> change) {
     super.onChange(change);
