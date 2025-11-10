@@ -2,6 +2,7 @@ import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/features/login/domain/repositories/abstract_auth_repo.dart';
 import 'package:bookreview/src/features/login/domain/repositories/abstract_user_repo.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
+import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
 import 'package:bookreview/src/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:bookreview/src/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:bookreview/src/shared/presentation/cubit/app_data_load_cubit.dart';

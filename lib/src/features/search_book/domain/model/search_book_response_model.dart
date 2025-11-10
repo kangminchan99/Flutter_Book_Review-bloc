@@ -41,4 +41,6 @@ class SearchBookApiResponse extends Equatable {
 
   factory SearchBookApiResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchBookApiResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchBookApiResponseToJson(this);
 }

@@ -1,9 +1,11 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/widgets/review_slider_bar_widget.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReviewHeaderWidget extends StatelessWidget {
   final SearchBookModel book;
@@ -46,7 +48,9 @@ class ReviewHeaderWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                ReviewSliderBarWidget(onChange: (value) {}),
+                ReviewSliderBarWidget(
+                  onChange: context.read<ReviewCubit>().changeRating,
+                ),
               ],
             ),
           ),

@@ -42,4 +42,6 @@ class SearchBookModel extends Equatable {
 
   factory SearchBookModel.fromJson(Map<String, dynamic> json) =>
       _$SearchBookModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchBookModelToJson(this);
 }

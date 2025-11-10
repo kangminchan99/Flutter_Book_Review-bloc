@@ -43,4 +43,7 @@ class SearchBookParams extends Equatable {
   List<Object?> get props => [query, display, start, sort];
 
   Map<String, dynamic> toMap() => _$SearchBookParamsToJson(this);
+
+  factory SearchBookParams.fromJson(Map<String, dynamic> json) =>
+      _$SearchBookParamsFromJson(json);
 }

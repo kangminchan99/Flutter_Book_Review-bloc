@@ -3,6 +3,7 @@ import 'package:bookreview/src/features/book_info/presentation/pages/book_info_p
 import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
+import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/pages/review_page.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
 import 'package:bookreview/src/features/search_book/domain/repositories/abstract_search_book_repo.dart';
@@ -63,8 +64,14 @@ final router = GoRouter(
     GoRoute(
       path: ReviewPage.routerPath,
       name: ReviewPage.routerName,
-      builder: (context, state) =>
-          ReviewPage(book: state.extra as SearchBookModel),
+      builder: (context, state) => BlocProvider(
+        create: (context) {
+          var bookModel = state.extra as SearchBookModel;
+          var uid = sl<AuthCubit>().state.user!.uid!;
+          return ReviewCubit(uid, bookModel);
+        },
+        child: ReviewPage(book: state.extra as SearchBookModel),
+      ),
     ),
     GoRoute(
       path: SearchBookPage.routerPath,
