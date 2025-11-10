@@ -9,6 +9,7 @@ import 'package:bookreview/src/shared/presentation/widgets/hide_keyboard_widget.
 import 'package:bookreview/src/shared/presentation/widgets/main_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ReviewPage extends StatelessWidget {
   static const String routerName = 'review';
@@ -28,6 +29,7 @@ class ReviewPage extends StatelessWidget {
             onTap: () {
               // 리뷰 저장 로직
               context.read<ReviewCubit>().save();
+              context.pop();
             },
             title: '저장',
           ),
@@ -36,7 +38,17 @@ class ReviewPage extends StatelessWidget {
           children: [
             ReviewHeaderWidget(book: book),
             AppDividerWidget(),
-            Expanded(child: ReviewContentWidget()),
+            Expanded(
+              child: BlocBuilder<ReviewCubit, ReviewState>(
+                buildWhen: (previous, current) =>
+                    current.isEditMode != previous.isEditMode,
+                builder: (context, state) {
+                  return ReviewContentWidget(
+                    initReview: state.reviewModel?.review,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

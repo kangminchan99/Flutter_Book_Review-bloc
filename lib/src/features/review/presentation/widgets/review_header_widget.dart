@@ -48,8 +48,13 @@ class ReviewHeaderWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                ReviewSliderBarWidget(
-                  onChange: context.read<ReviewCubit>().changeRating,
+                BlocBuilder<ReviewCubit, ReviewState>(
+                  builder: (context, state) {
+                    return ReviewSliderBarWidget(
+                      initValue: state.reviewModel?.rating ?? 0,
+                      onChange: context.read<ReviewCubit>().changeRating,
+                    );
+                  },
                 ),
               ],
             ),
