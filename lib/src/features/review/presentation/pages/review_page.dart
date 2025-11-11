@@ -34,7 +34,9 @@ class ReviewPage extends StatelessWidget {
                 onTap: () async {
                   // 리뷰 저장 로직
                   await context.read<ReviewCubit>().save();
-                  context.pop();
+                  // 북인포 새로고침
+                  if (!context.mounted) return;
+                  context.pop<bool>(true);
                 },
                 title: '저장',
               ),

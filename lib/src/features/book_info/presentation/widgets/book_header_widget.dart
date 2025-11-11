@@ -1,8 +1,10 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/book_info/presentation/cubit/book_info_cubit.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BookHeaderWidget extends StatelessWidget {
@@ -35,11 +37,22 @@ class BookHeaderWidget extends StatelessWidget {
             children: [
               SvgPicture.asset('assets/svg/icons/icon_star.svg'),
               SizedBox(width: 4),
-              Text(
-                '8.88',
-                style: AppTextStyle.mediumWhite.copyWith(
-                  color: AppColors.btnBackgroundColor,
-                ),
+              BlocBuilder<BookInfoCubit, BookInfoState>(
+                builder: (context, state) {
+                  return Text(
+                    state.bookReviewInfoModel == null
+                        ? '리뷰 점수 없음'
+                        : (state.bookReviewInfoModel!.totalRating! /
+                                  state
+                                      .bookReviewInfoModel!
+                                      .reviewerIds!
+                                      .length)
+                              .toStringAsFixed(2),
+                    style: AppTextStyle.mediumWhite.copyWith(
+                      color: AppColors.btnBackgroundColor,
+                    ),
+                  );
+                },
               ),
             ],
           ),

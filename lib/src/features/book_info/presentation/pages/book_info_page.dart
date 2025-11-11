@@ -1,13 +1,15 @@
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/book_info/presentation/cubit/book_info_cubit.dart';
 import 'package:bookreview/src/features/book_info/presentation/widgets/book_body_info_widget.dart';
 import 'package:bookreview/src/features/book_info/presentation/widgets/book_header_widget.dart';
-import 'package:bookreview/src/features/book_info/presentation/widgets/reviewer_empty_widget.dart';
+import 'package:bookreview/src/features/book_info/presentation/widgets/book_reviewer_widget.dart';
 import 'package:bookreview/src/features/review/presentation/pages/review_page.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
 import 'package:bookreview/src/shared/presentation/widgets/app_divider_widget.dart';
 import 'package:bookreview/src/shared/presentation/widgets/main_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class BookInfoPage extends StatelessWidget {
@@ -23,8 +25,15 @@ class BookInfoPage extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(30.0),
         child: MainButtonWidget(
-          onTap: () {
-            context.pushNamed(ReviewPage.routerName, extra: book);
+          onTap: () async {
+            var isRefresh = await context.pushNamed<bool?>(
+              ReviewPage.routerName,
+              extra: book,
+            );
+
+            if (isRefresh == true && isRefresh != null && context.mounted) {
+              context.read<BookInfoCubit>().refresh();
+            }
           },
           title: '리뷰하기',
         ),
@@ -38,8 +47,7 @@ class BookInfoPage extends StatelessWidget {
               AppDividerWidget(),
               BookBodyInfoWidget(book: book),
               AppDividerWidget(),
-              // BookReviewerWidget(),
-              ReviewerEmptyWidget(),
+              BookReviewerWidget(),
             ],
           ),
         ),

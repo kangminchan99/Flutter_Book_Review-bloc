@@ -29,7 +29,6 @@ class ReviewRepoImpl extends AbstractReviewRepo {
 
   @override
   Future<void> updateReview(ReviewModel data) async {
-    print(data.reviewerId);
     var doc = await db
         .collection(reviewCollection)
         .where(bookIdField, isEqualTo: data.bookId)

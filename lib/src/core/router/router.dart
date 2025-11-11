@@ -1,4 +1,5 @@
 import 'package:bookreview/src/core/injections.dart';
+import 'package:bookreview/src/features/book_info/presentation/cubit/book_info_cubit.dart';
 import 'package:bookreview/src/features/book_info/presentation/pages/book_info_page.dart';
 import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
@@ -59,7 +60,13 @@ final router = GoRouter(
     GoRoute(
       path: BookInfoPage.routerPath,
       name: BookInfoPage.routerName,
-      builder: (context, state) => BookInfoPage(state.extra as SearchBookModel),
+      builder: (context, state) => BlocProvider(
+        create: (context) => BookInfoCubit(
+          sl<AuthCubit>().state.user!.uid!,
+          (state.extra as SearchBookModel).isbn!,
+        ),
+        child: BookInfoPage(state.extra as SearchBookModel),
+      ),
     ),
     GoRoute(
       path: ReviewPage.routerPath,
