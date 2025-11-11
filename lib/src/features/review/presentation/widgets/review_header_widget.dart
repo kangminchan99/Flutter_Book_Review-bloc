@@ -1,15 +1,23 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
+import 'package:bookreview/src/features/review/presentation/pages/review_detail_page.dart';
+import 'package:bookreview/src/features/review/presentation/pages/review_page.dart';
 import 'package:bookreview/src/features/review/presentation/widgets/review_slider_bar_widget.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ReviewHeaderWidget extends StatelessWidget {
   final SearchBookModel book;
-  const ReviewHeaderWidget({super.key, required this.book});
+  final String routerName;
+  const ReviewHeaderWidget({
+    super.key,
+    required this.book,
+    required this.routerName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +56,34 @@ class ReviewHeaderWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                BlocBuilder<ReviewCubit, ReviewState>(
-                  builder: (context, state) {
-                    return ReviewSliderBarWidget(
-                      initValue: state.reviewModel?.rating ?? 0,
-                      onChange: context.read<ReviewCubit>().changeRating,
-                    );
-                  },
-                ),
+                if (routerName == ReviewPage.routerName) ...[
+                  BlocBuilder<ReviewCubit, ReviewState>(
+                    builder: (context, state) {
+                      return ReviewSliderBarWidget(
+                        initValue: state.reviewModel?.rating ?? 0,
+                        onChange: context.read<ReviewCubit>().changeRating,
+                      );
+                    },
+                  ),
+                ],
+
+                if (routerName == ReviewDetailPage.routerName) ...[
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/svg/icons/icon_star.svg',
+                        width: 22,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        '4.6',
+                        style: AppTextStyle.largeWhite.copyWith(
+                          color: AppColors.btnBackgroundColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

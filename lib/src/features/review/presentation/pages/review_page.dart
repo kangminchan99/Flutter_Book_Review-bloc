@@ -43,7 +43,7 @@ class ReviewPage extends StatelessWidget {
             ),
             child: Column(
               children: [
-                ReviewHeaderWidget(book: book),
+                ReviewHeaderWidget(book: book, routerName: routerName),
                 AppDividerWidget(),
                 Expanded(
                   child: BlocBuilder<ReviewCubit, ReviewState>(
