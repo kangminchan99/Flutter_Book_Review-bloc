@@ -4,6 +4,7 @@ import 'package:bookreview/src/features/book_info/domain/repositories/abstract_b
 import 'package:bookreview/src/features/review/domain/model/review_model.dart';
 import 'package:bookreview/src/features/review/domain/repositories/abstract_review_repo.dart';
 import 'package:bookreview/src/features/search_book/domain/model/search_book_model.dart';
+import 'package:bookreview/src/shared/domain/entities/common_state_status_enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,14 +49,20 @@ class ReviewCubit extends Cubit<ReviewState> {
     );
   }
 
-  void save() async {
+  Future<void> save() async {
+    emit(state.copyWith(status: CommonStateStatus.loading));
+    await Future.delayed(Duration(seconds: 3));
+    var message = '';
     if (state.isEditMode == true) {
       // update
       await update();
+      message = 'Review updated successfully';
     } else {
       // insert
       await insert();
+      message = 'Review added successfully';
     }
+    emit(state.copyWith(status: CommonStateStatus.loaded, message: message));
   }
 
   Future<void> insert() async {
@@ -130,20 +137,38 @@ class ReviewState extends Equatable {
   final ReviewModel? reviewModel;
   final bool? isEditMode;
   final double? beforeRating;
-  const ReviewState({this.reviewModel, this.isEditMode, this.beforeRating});
+  final CommonStateStatus status;
+  final String? message;
+
+  const ReviewState({
+    this.reviewModel,
+    this.isEditMode,
+    this.beforeRating,
+    this.status = CommonStateStatus.init,
+    this.message,
+  });
 
   @override
-  List<Object?> get props => [reviewModel, isEditMode, beforeRating];
-
+  List<Object?> get props => [
+    reviewModel,
+    isEditMode,
+    beforeRating,
+    status,
+    message,
+  ];
   ReviewState copyWith({
     ReviewModel? reviewModel,
     bool? isEditMode,
     double? beforeRating,
+    CommonStateStatus? status,
+    String? message,
   }) {
     return ReviewState(
       reviewModel: reviewModel ?? this.reviewModel,
       isEditMode: isEditMode ?? this.isEditMode,
       beforeRating: beforeRating ?? this.beforeRating,
+      status: status ?? this.status,
+      message: message ?? this.message,
     );
   }
 }
