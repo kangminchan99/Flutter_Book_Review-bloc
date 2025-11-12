@@ -4,6 +4,7 @@ import 'package:bookreview/src/features/book_info/presentation/pages/book_info_p
 import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
+import 'package:bookreview/src/features/profile/presentation/pages/profile_page.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_detail_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/pages/review_detail_page.dart';
@@ -105,6 +106,11 @@ final router = GoRouter(
         ),
         child: ReviewDetailPage(book: state.extra as SearchBookModel),
       ),
+    ),
+    GoRoute(
+      path: ProfilePage.routerPath,
+      name: ProfilePage.routerName,
+      builder: (context, state) => const ProfilePage(),
     ),
   ],
 );
