@@ -1,4 +1,3 @@
-import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/utils/constant/db_constant.dart';
 import 'package:bookreview/src/features/login/domain/model/user_model.dart';
 import 'package:bookreview/src/features/login/domain/repositories/abstract_user_repo.dart';

@@ -15,6 +15,7 @@ class ReviewDetailHeaderWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
       child: BlocBuilder<ReviewDetailCubit, ReviewDetailState>(
         builder: (context, state) {
+          if (state.reviewModel == null) return Container();
           return Row(
             children: [
               CircleAvatar(
@@ -37,7 +38,7 @@ class ReviewDetailHeaderWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '공감 15개',
+                          '공감 ${state.reviewModel!.likedUsers?.length ?? 0}개',
                           style: AppTextStyle.xLargeWhiteBold.copyWith(
                             fontSize: 15,
                           ),

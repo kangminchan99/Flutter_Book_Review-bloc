@@ -9,6 +9,9 @@ part of 'review_model.dart';
 ReviewModel _$ReviewModelFromJson(Map<String, dynamic> json) => ReviewModel(
   bookId: json['bookId'] as String?,
   reviewerId: json['reviewerId'] as String?,
+  likedUsers: (json['likedUsers'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
   review: json['review'] as String?,
   rating: (json['rating'] as num?)?.toDouble(),
   book: json['book'] == null
@@ -26,6 +29,7 @@ Map<String, dynamic> _$ReviewModelToJson(ReviewModel instance) =>
     <String, dynamic>{
       'bookId': instance.bookId,
       'reviewerId': instance.reviewerId,
+      'likedUsers': instance.likedUsers,
       'review': instance.review,
       'rating': instance.rating,
       'book': instance.book?.toJson(),

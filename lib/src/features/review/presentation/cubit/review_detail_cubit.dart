@@ -32,6 +32,45 @@ class ReviewDetailCubit extends Cubit<ReviewDetailState> {
       emit(state.copyWith(userModel: userInfoData));
     }
   }
+
+  void toggleLikedReview(String myUid) async {
+    if (state.reviewModel!.likedUsers == null) {
+      // like 이벤트
+      emit(
+        state.copyWith(
+          reviewModel: state.reviewModel!.copyWith(
+            likedUsers: List.unmodifiable([myUid]),
+          ),
+        ),
+      );
+    } else {
+      if (state.reviewModel!.likedUsers!.contains(myUid)) {
+        // unlike 이벤트
+        emit(
+          state.copyWith(
+            reviewModel: state.reviewModel!.copyWith(
+              likedUsers: List.unmodifiable([
+                ...state.reviewModel!.likedUsers!.where((my) => my != myUid),
+              ]),
+            ),
+          ),
+        );
+      } else {
+        // like 이벤트
+        emit(
+          state.copyWith(
+            reviewModel: state.reviewModel!.copyWith(
+              likedUsers: List.unmodifiable([
+                ...state.reviewModel!.likedUsers!,
+                myUid,
+              ]),
+            ),
+          ),
+        );
+      }
+    }
+    await sl<AbstractReviewRepo>().updateReview(state.reviewModel!);
+  }
 }
 
 class ReviewDetailState extends Equatable {

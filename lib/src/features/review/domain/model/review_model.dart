@@ -9,6 +9,7 @@ part 'review_model.g.dart';
 class ReviewModel extends Equatable {
   final String? bookId;
   final String? reviewerId;
+  final List<String>? likedUsers;
   final String? review;
   final double? rating;
   final SearchBookModel? book;
@@ -18,6 +19,7 @@ class ReviewModel extends Equatable {
   const ReviewModel({
     this.bookId,
     this.reviewerId,
+    this.likedUsers,
     this.review,
     this.rating,
     this.book,
@@ -29,6 +31,7 @@ class ReviewModel extends Equatable {
   List<Object?> get props => [
     bookId,
     reviewerId,
+    likedUsers,
     review,
     rating,
     book,
@@ -39,6 +42,7 @@ class ReviewModel extends Equatable {
   ReviewModel copyWith({
     String? bookId,
     String? reviewerId,
+    List<String>? likedUsers,
     String? review,
     double? rating,
     SearchBookModel? book,
@@ -48,6 +52,7 @@ class ReviewModel extends Equatable {
     return ReviewModel(
       bookId: bookId ?? this.bookId,
       reviewerId: reviewerId ?? this.reviewerId,
+      likedUsers: likedUsers ?? this.likedUsers,
       review: review ?? this.review,
       rating: rating ?? this.rating,
       book: book ?? this.book,
