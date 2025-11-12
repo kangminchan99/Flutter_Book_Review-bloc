@@ -2,10 +2,8 @@ import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/book_info/presentation/cubit/book_info_cubit.dart';
 import 'package:bookreview/src/features/book_info/presentation/widgets/book_reviewers_list_widget.dart';
 import 'package:bookreview/src/features/book_info/presentation/widgets/reviewer_empty_widget.dart';
-import 'package:bookreview/src/features/review/presentation/pages/review_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class BookReviewerWidget extends StatelessWidget {
   const BookReviewerWidget({super.key});
@@ -26,12 +24,7 @@ class BookReviewerWidget extends StatelessWidget {
               } else {
                 return BookReviewersListWidget(
                   reviewers: state.reviewers ?? [],
-                  onCircleTap: () {
-                    context.pushNamed(
-                      ReviewDetailPage.routerName,
-                      extra: state.bookReviewInfoModel!.bookInfo!,
-                    );
-                  },
+                  state: state,
                 );
               }
             },

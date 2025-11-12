@@ -1,6 +1,7 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
+import 'package:bookreview/src/features/review/presentation/cubit/review_detail_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/pages/review_detail_page.dart';
 import 'package:bookreview/src/features/review/presentation/pages/review_page.dart';
 import 'package:bookreview/src/features/review/presentation/widgets/review_slider_bar_widget.dart';
@@ -75,11 +76,15 @@ class ReviewHeaderWidget extends StatelessWidget {
                         width: 22,
                       ),
                       SizedBox(width: 5),
-                      Text(
-                        '4.6',
-                        style: AppTextStyle.largeWhite.copyWith(
-                          color: AppColors.btnBackgroundColor,
-                        ),
+                      BlocBuilder<ReviewDetailCubit, ReviewDetailState>(
+                        builder: (context, state) {
+                          return Text(
+                            (state.reviewModel?.rating ?? 0).toStringAsFixed(1),
+                            style: AppTextStyle.largeWhite.copyWith(
+                              color: AppColors.btnBackgroundColor,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

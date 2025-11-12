@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 class ReviewDetailPage extends StatelessWidget {
   static const String routerName = 'review_detail';
-  static const String routerPath = '/review_detail';
+  static const String routerPath = '/review_detail/:bookId/:uid';
 
   final SearchBookModel book;
   const ReviewDetailPage({super.key, required this.book});

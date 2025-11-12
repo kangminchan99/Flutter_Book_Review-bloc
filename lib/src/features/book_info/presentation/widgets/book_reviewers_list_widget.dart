@@ -1,14 +1,17 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
+import 'package:bookreview/src/features/book_info/presentation/cubit/book_info_cubit.dart';
 import 'package:bookreview/src/features/login/domain/model/user_model.dart';
+import 'package:bookreview/src/features/review/presentation/pages/review_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BookReviewersListWidget extends StatelessWidget {
   final List<UserModel> reviewers;
-  final void Function() onCircleTap;
+  final BookInfoState state;
   const BookReviewersListWidget({
     super.key,
     required this.reviewers,
-    required this.onCircleTap,
+    required this.state,
   });
 
   @override
@@ -19,7 +22,14 @@ class BookReviewersListWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: onCircleTap,
+            onTap: () {
+              context.push(
+                ReviewDetailPage.routerPath
+                    .replaceFirst(':bookId', state.bookReviewInfoModel!.bookId!)
+                    .replaceFirst(':uid', state.reviewers![index].uid!),
+                extra: state.bookReviewInfoModel!.bookInfo!,
+              );
+            },
             child: Hero(
               tag: 'reviewer_${reviewers[index].uid}',
               child: CircleAvatar(

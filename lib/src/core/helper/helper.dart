@@ -6,6 +6,7 @@ import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/core/utils/constant/config.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Helper {
   // dio header
@@ -40,5 +41,9 @@ class Helper {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message, style: AppTextStyle.xLargeWhiteBold)),
     );
+  }
+
+  static String formatDateTime(String format, DateTime dateTime) {
+    return DateFormat(format).format(dateTime);
   }
 }
