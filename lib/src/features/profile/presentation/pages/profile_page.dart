@@ -1,8 +1,10 @@
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:bookreview/src/features/profile/presentation/widgets/profile_info_widget.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
 import 'package:bookreview/src/shared/presentation/widgets/app_divider_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -13,7 +15,14 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      appBarTitle: Text('누구누구 프로필', style: AppTextStyle.xLargeWhiteBold),
+      appBarTitle: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return Text(
+            '${state.userModel?.name ?? ''} 리뷰어',
+            style: AppTextStyle.xLargeWhiteBold,
+          );
+        },
+      ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20),

@@ -1,6 +1,10 @@
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:bookreview/src/shared/domain/entities/common_state_status_enum.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
@@ -8,16 +12,25 @@ class ProfileInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = context.watch<ProfileCubit>();
+    if (cubit.state.status == CommonStateStatus.loading) {
+      return Center(child: CircularProgressIndicator.adaptive());
+    }
     return Column(
       children: [
         SizedBox(height: 20),
         CircleAvatar(
           radius: 33,
           backgroundColor: AppColors.gray,
-          backgroundImage: AssetImage('assets/images/default_avatar.png'),
+          backgroundImage: cubit.state.userModel?.profile == null
+              ? AssetImage('assets/images/default_avatar.png')
+              : CachedNetworkImageProvider(cubit.state.userModel!.profile!),
         ),
         SizedBox(height: 20),
-        Text('최고의 글쟁이가 되기 위한 도전', style: AppTextStyle.largeWhite),
+        Text(
+          cubit.state.userModel?.description ?? '',
+          style: AppTextStyle.largeWhite,
+        ),
         SizedBox(height: 30),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
