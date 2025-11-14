@@ -14,7 +14,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   void _loadUserProfile() async {
     emit(state.copyWith(status: CommonStateStatus.loading));
     var userInfo = await sl<AbstractUserRepo>().findUserOne(uid);
-    await Future.delayed(const Duration(seconds: 1));
     if (userInfo == null) {
       emit(state.copyWith(status: CommonStateStatus.error));
     } else {
@@ -22,6 +21,66 @@ class ProfileCubit extends Cubit<ProfileState> {
         state.copyWith(userModel: userInfo, status: CommonStateStatus.loaded),
       );
     }
+  }
+
+  void toggleFollow(String myUid) async {
+    if (state.userModel?.followers != null &&
+        state.userModel!.followers!.contains(myUid)) {
+      // unfollow
+      var result = await sl<AbstractUserRepo>().followEvent(
+        false,
+        myUid,
+        state.userModel!.uid!,
+      );
+
+      if (result) {
+        _unfollow(myUid);
+      }
+    } else {
+      // follow
+      var result = await sl<AbstractUserRepo>().followEvent(
+        true,
+        myUid,
+        state.userModel!.uid!,
+      );
+      if (result) {
+        _follow(myUid);
+      }
+    }
+  }
+
+  void _follow(uid) {
+    if (state.userModel!.followers == null) {
+      emit(
+        state.copyWith(
+          userModel: state.userModel!.copyWith(
+            followers: List.unmodifiable([uid]),
+          ),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          userModel: state.userModel!.copyWith(
+            followers: List.unmodifiable([...state.userModel!.followers!, uid]),
+          ),
+        ),
+      );
+    }
+  }
+
+  void _unfollow(String uid) {
+    final updatedFollowers = state.userModel!.followers!
+        .where((e) => e != uid)
+        .toList(); // Iterable -> List
+
+    emit(
+      state.copyWith(
+        userModel: state.userModel!.copyWith(
+          followers: List.unmodifiable(updatedFollowers),
+        ),
+      ),
+    );
   }
 }
 

@@ -1,4 +1,6 @@
+import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:bookreview/src/features/profile/presentation/widgets/profile_info_widget.dart';
 import 'package:bookreview/src/features/profile/presentation/widgets/profile_review_list_widget.dart';
@@ -15,6 +17,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var myUid = sl<AuthCubit>().state.user!.uid;
+
     return DefaultLayout(
       appBarTitle: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
@@ -28,8 +32,20 @@ class ProfilePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 20),
           child: GestureDetector(
-            onTap: () {},
-            child: SvgPicture.asset('assets/svg/icons/icon_follow_off.svg'),
+            onTap: () {
+              context.read<ProfileCubit>().toggleFollow(myUid!);
+            },
+            child: BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                var isFollowing =
+                    state.userModel?.followers?.contains(myUid) ?? false;
+                return SvgPicture.asset(
+                  isFollowing
+                      ? 'assets/svg/icons/icon_follow_on.svg'
+                      : 'assets/svg/icons/icon_follow_off.svg',
+                );
+              },
+            ),
           ),
         ),
       ],

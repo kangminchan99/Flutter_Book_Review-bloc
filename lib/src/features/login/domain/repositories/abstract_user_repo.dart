@@ -6,4 +6,6 @@ abstract class AbstractUserRepo {
   Future<bool> joinUser(UserModel userModel);
 
   Future<List<UserModel>> allUserInfos(List<String> uids);
+
+  Future<bool> followEvent(bool isFollow, String myUid, String targetUid);
 }

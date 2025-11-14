@@ -10,6 +10,8 @@ class UserModel extends Equatable {
   final String? name;
   final String? profile;
   final String? description;
+  final List<String>? followers;
+  final List<String>? followings;
 
   const UserModel({
     required this.uid,
@@ -17,6 +19,8 @@ class UserModel extends Equatable {
     required this.name,
     this.profile,
     this.description,
+    this.followers,
+    this.followings,
   });
 
   UserModel copyWith({
@@ -25,6 +29,8 @@ class UserModel extends Equatable {
     String? name,
     String? profile,
     String? description,
+    List<String>? followers,
+    List<String>? followings,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -32,11 +38,21 @@ class UserModel extends Equatable {
       name: name ?? this.name,
       profile: profile ?? this.profile,
       description: description ?? this.description,
+      followers: followers ?? this.followers,
+      followings: followings ?? this.followings,
     );
   }
 
   @override
-  List<Object?> get props => [uid, email, name, profile, description];
+  List<Object?> get props => [
+    uid,
+    email,
+    name,
+    profile,
+    description,
+    followers,
+    followings,
+  ];
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

@@ -49,4 +49,60 @@ class UserRepoImpl extends AbstractUserRepo {
       return doc.docs.map((e) => UserModel.fromJson(e.data())).toList();
     }
   }
+
+  @override
+  Future<bool> followEvent(
+    bool isFollow,
+    String myUid,
+    String targetUid,
+  ) async {
+    try {
+      // batch - 저장을 한번에 처리하는 방식
+      final batch = _db.batch();
+
+      var targetUserDoc = await _db
+          .collection(usersCollection)
+          .where(uidField, isEqualTo: targetUid)
+          .get();
+
+      var targetUserInfo = UserModel.fromJson(targetUserDoc.docs.first.data());
+
+      var followers = targetUserInfo.followers ?? [];
+
+      if (isFollow) {
+        followers.add(myUid);
+      } else {
+        followers.remove(myUid);
+      }
+
+      var targetRef = _db
+          .collection(usersCollection)
+          .doc(targetUserDoc.docs.first.id);
+
+      batch.update(targetRef, {'followers': followers});
+
+      var myDoc = await _db
+          .collection(usersCollection)
+          .where(uidField, isEqualTo: myUid)
+          .get();
+
+      var myInfo = UserModel.fromJson(myDoc.docs.first.data());
+
+      var followings = myInfo.followings ?? [];
+
+      if (isFollow) {
+        followings.add(targetUid);
+      } else {
+        followings.remove(targetUid);
+      }
+      var myRef = _db.collection(usersCollection).doc(myDoc.docs.first.id);
+
+      batch.update(myRef, {'followings': followings});
+
+      await batch.commit();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
