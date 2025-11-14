@@ -6,4 +6,6 @@ abstract class AbstractReviewRepo {
   Future<ReviewModel?> loadReview(String bookId, String reviewerId);
 
   Future<void> updateReview(ReviewModel data);
+
+  Future<List<ReviewModel>> loadUserReviews(String uid);
 }

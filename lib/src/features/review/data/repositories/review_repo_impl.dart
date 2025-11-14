@@ -40,4 +40,19 @@ class ReviewRepoImpl extends AbstractReviewRepo {
         .doc(doc.docs.first.id)
         .update(data.toJson());
   }
+
+  @override
+  Future<List<ReviewModel>> loadUserReviews(String uid) async {
+    try {
+      var doc = await db
+          .collection(reviewCollection)
+          .where(reviewerIdField, isEqualTo: uid)
+          .get();
+      return doc.docs
+          .map<ReviewModel>((e) => ReviewModel.fromJson(e.data()))
+          .toList();
+    } catch (e) {
+      return [];
+    }
+  }
 }

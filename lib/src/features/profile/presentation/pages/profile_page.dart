@@ -1,6 +1,7 @@
 import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:bookreview/src/features/profile/presentation/widgets/profile_info_widget.dart';
+import 'package:bookreview/src/features/profile/presentation/widgets/profile_review_list_widget.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
 import 'package:bookreview/src/shared/presentation/widgets/app_divider_widget.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class ProfilePage extends StatelessWidget {
             delegate: SliverChildListDelegate([
               ProfileInfoWidget(),
               AppDividerWidget(),
+              ProfileReviewListWidget(),
             ]),
           ),
         ],

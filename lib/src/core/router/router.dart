@@ -5,6 +5,7 @@ import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
 import 'package:bookreview/src/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:bookreview/src/features/profile/presentation/cubit/profile_review_cubit.dart';
 import 'package:bookreview/src/features/profile/presentation/pages/profile_page.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_detail_cubit.dart';
@@ -111,12 +112,22 @@ final router = GoRouter(
     GoRoute(
       path: ProfilePage.routerPath,
       name: ProfilePage.routerName,
-      builder: (context, state) => BlocProvider(
-        create: (context) =>
-            ProfileCubit(state.pathParameters['uid'] as String),
-        // lazy를 false로 주어 페이지에 들어오는 순간 사용하지 않아도 자동적으로 ProfileCubit을
-        // instance에 올린다.
-        lazy: false,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                ProfileCubit(state.pathParameters['uid'] as String),
+            // lazy를 false로 주어 페이지에 들어오는 순간 사용하지 않아도 자동적으로 ProfileCubit을
+            // instance에 올린다.
+            lazy: false,
+          ),
+
+          BlocProvider(
+            create: (context) =>
+                ProfileReviewCubit(state.pathParameters['uid'] as String),
+            lazy: false,
+          ),
+        ],
         child: const ProfilePage(),
       ),
     ),

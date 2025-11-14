@@ -14,7 +14,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void _loadUserProfile() async {
     emit(state.copyWith(status: CommonStateStatus.loading));
     var userInfo = await sl<AbstractUserRepo>().findUserOne(uid);
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     if (userInfo == null) {
       emit(state.copyWith(status: CommonStateStatus.error));
     } else {
