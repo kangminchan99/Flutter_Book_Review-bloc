@@ -1,6 +1,7 @@
 import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/home/presentation/widgets/recent_review_list_widget.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/search_book/presentation/pages/search_book_page.dart';
 import 'package:bookreview/src/shared/presentation/pages/default_layout.dart';
@@ -40,16 +41,19 @@ class HomePage extends StatelessWidget {
         ),
       ),
       centerTitle: false,
-      child: Padding(
-        padding: const EdgeInsets.all(25),
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            CustomTextFieldWidget(
-              isEnabled: false,
-              onTap: () {
-                context.pushNamed(SearchBookPage.routerName);
-              },
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: CustomTextFieldWidget(
+                isEnabled: false,
+                onTap: () {
+                  context.pushNamed(SearchBookPage.routerName);
+                },
+              ),
             ),
+            RecentReviewListWidget(),
           ],
         ),
       ),
