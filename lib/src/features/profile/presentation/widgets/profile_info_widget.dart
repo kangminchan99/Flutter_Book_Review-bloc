@@ -3,10 +3,10 @@ import 'package:bookreview/src/core/styles/app_text_style.dart';
 import 'package:bookreview/src/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:bookreview/src/features/profile/presentation/cubit/profile_review_cubit.dart';
 import 'package:bookreview/src/shared/domain/entities/common_state_status_enum.dart';
+import 'package:bookreview/src/shared/presentation/widgets/icon_statistic_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
   const ProfileInfoWidget({super.key});
@@ -42,21 +42,13 @@ class ProfileInfoWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7),
                 border: Border.all(color: AppColors.gray),
               ),
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/svg/icons/icon_journals.svg'),
-                  SizedBox(width: 5),
-                  BlocBuilder<ProfileReviewCubit, ProfileReviewState>(
-                    builder: (context, state) {
-                      return Text(
-                        '${state.reviews.length}',
-                        style: AppTextStyle.mediumWhite.copyWith(
-                          color: AppColors.gray,
-                        ),
-                      );
-                    },
-                  ),
-                ],
+              child: BlocBuilder<ProfileReviewCubit, ProfileReviewState>(
+                builder: (context, state) {
+                  return IconStatisticWidget(
+                    svgPath: 'assets/svg/icons/icon_journals.svg',
+                    count: state.reviews.length,
+                  );
+                },
               ),
             ),
             SizedBox(width: 10),
@@ -66,21 +58,13 @@ class ProfileInfoWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7),
                 border: Border.all(color: AppColors.gray),
               ),
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/svg/icons/icon_people.svg'),
-                  SizedBox(width: 5),
-                  BlocBuilder<ProfileCubit, ProfileState>(
-                    builder: (context, state) {
-                      return Text(
-                        '${state.userModel?.followers?.length ?? 0}',
-                        style: AppTextStyle.mediumWhite.copyWith(
-                          color: AppColors.gray,
-                        ),
-                      );
-                    },
-                  ),
-                ],
+              child: BlocBuilder<ProfileCubit, ProfileState>(
+                builder: (context, state) {
+                  return IconStatisticWidget(
+                    svgPath: 'assets/svg/icons/icon_people.svg',
+                    count: cubit.state.userModel?.followers?.length ?? 0,
+                  );
+                },
               ),
             ),
           ],
