@@ -1,5 +1,7 @@
 import 'package:bookreview/src/core/helper/helper.dart';
+import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/cubit/review_cubit.dart';
 import 'package:bookreview/src/features/review/presentation/widgets/review_content_widget.dart';
 import 'package:bookreview/src/features/review/presentation/widgets/review_header_widget.dart';
@@ -34,6 +36,7 @@ class ReviewPage extends StatelessWidget {
                 onTap: () async {
                   // 리뷰 저장 로직
                   await context.read<ReviewCubit>().save();
+                  await sl<AuthCubit>().updateReviewCount();
                   // 북인포 새로고침
                   if (!context.mounted) return;
                   context.pop<bool>(true);

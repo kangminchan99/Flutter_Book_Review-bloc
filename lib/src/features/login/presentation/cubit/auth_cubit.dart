@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/features/login/domain/model/user_model.dart';
 import 'package:bookreview/src/features/login/domain/repositories/abstract_auth_repo.dart';
 import 'package:bookreview/src/features/login/domain/repositories/abstract_user_repo.dart';
+import 'package:bookreview/src/features/review/domain/repositories/abstract_review_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,6 +53,14 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
 
   void logout() async {
     await _authRepo.signOut();
+  }
+
+  Future<void> updateReviewCount() async {
+    var results = await sl<AbstractReviewRepo>().loadUserReviews(
+      state.user!.uid!,
+    );
+
+    _userRepo.updateReviewCount(state.user!.uid!, results.length);
   }
 
   @override

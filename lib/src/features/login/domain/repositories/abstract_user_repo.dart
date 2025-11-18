@@ -8,4 +8,8 @@ abstract class AbstractUserRepo {
   Future<List<UserModel>> allUserInfos(List<String> uids);
 
   Future<bool> followEvent(bool isFollow, String myUid, String targetUid);
+
+  Future<void> updateReviewCount(String uid, int reviewCount);
+
+  Future<List<UserModel>> loadTopReviewers();
 }

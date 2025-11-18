@@ -79,7 +79,10 @@ class UserRepoImpl extends AbstractUserRepo {
           .collection(usersCollection)
           .doc(targetUserDoc.docs.first.id);
 
-      batch.update(targetRef, {'followers': followers});
+      batch.update(targetRef, {
+        'followers': followers,
+        'followerCount': followers.length,
+      });
 
       var myDoc = await _db
           .collection(usersCollection)
@@ -97,12 +100,42 @@ class UserRepoImpl extends AbstractUserRepo {
       }
       var myRef = _db.collection(usersCollection).doc(myDoc.docs.first.id);
 
-      batch.update(myRef, {'followings': followings});
+      batch.update(myRef, {
+        'followings': followings,
+        'followingCount': followings.length,
+      });
 
       await batch.commit();
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  Future<void> updateReviewCount(String uid, int reviewCount) async {
+    var targetUserDoc = await _db
+        .collection(usersCollection)
+        .where(uidField, isEqualTo: uid)
+        .get();
+
+    await _db
+        .collection(usersCollection)
+        .doc(targetUserDoc.docs.first.id)
+        .update({'reviewCount': reviewCount});
+  }
+
+  @override
+  Future<List<UserModel>> loadTopReviewers() async {
+    var doc = await _db
+        .collection(usersCollection)
+        .orderBy('followerCount', descending: true)
+        .limit(10)
+        .get();
+    if (doc.docs.isEmpty) {
+      return [];
+    } else {
+      return doc.docs.map((e) => UserModel.fromJson(e.data())).toList();
     }
   }
 }

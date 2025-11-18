@@ -12,6 +12,9 @@ class UserModel extends Equatable {
   final String? description;
   final List<String>? followers;
   final List<String>? followings;
+  final int? followerCount;
+  final int? followingCount;
+  final int? reviewCount;
 
   const UserModel({
     required this.uid,
@@ -21,6 +24,9 @@ class UserModel extends Equatable {
     this.description,
     this.followers,
     this.followings,
+    this.followerCount,
+    this.followingCount,
+    this.reviewCount,
   });
 
   UserModel copyWith({
@@ -31,6 +37,9 @@ class UserModel extends Equatable {
     String? description,
     List<String>? followers,
     List<String>? followings,
+    int? followerCount,
+    int? followingCount,
+    int? reviewCount,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -40,6 +49,9 @@ class UserModel extends Equatable {
       description: description ?? this.description,
       followers: followers ?? this.followers,
       followings: followings ?? this.followings,
+      followerCount: followerCount ?? this.followerCount,
+      followingCount: followingCount ?? this.followingCount,
+      reviewCount: reviewCount ?? this.reviewCount,
     );
   }
 
@@ -52,6 +64,9 @@ class UserModel extends Equatable {
     description,
     followers,
     followings,
+    followerCount,
+    followingCount,
+    reviewCount,
   ];
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
