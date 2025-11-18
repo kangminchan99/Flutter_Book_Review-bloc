@@ -1,6 +1,7 @@
 import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/features/book_info/presentation/cubit/book_info_cubit.dart';
 import 'package:bookreview/src/features/book_info/presentation/pages/book_info_page.dart';
+import 'package:bookreview/src/features/home/cubit/recent_review_cubit.dart';
 import 'package:bookreview/src/features/home/presentation/pages/home_page.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
 import 'package:bookreview/src/features/login/presentation/pages/login_page.dart';
@@ -60,7 +61,11 @@ final router = GoRouter(
     GoRoute(
       path: HomePage.routerPath,
       name: HomePage.routerName,
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => RecentReviewCubit(),
+        lazy: false,
+        child: const HomePage(),
+      ),
     ),
     GoRoute(
       path: BookInfoPage.routerPath,
@@ -121,7 +126,6 @@ final router = GoRouter(
             // instance에 올린다.
             lazy: false,
           ),
-
           BlocProvider(
             create: (context) =>
                 ProfileReviewCubit(state.pathParameters['uid'] as String),

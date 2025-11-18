@@ -6,4 +6,6 @@ abstract class AbstractBookReviewInfoRepo {
   Future<BookReviewInfoModel?> loadBookReviewInfo(String bookId);
 
   Future<void> updateBookReviewInfo(BookReviewInfoModel data);
+
+  Future<List<BookReviewInfoModel>?> loadBookReviewRecentData();
 }

@@ -4,3 +4,4 @@ String usersCollection = "users";
 String bookIdField = "bookId";
 String reviewerIdField = "reviewerId";
 String uidField = "uid";
+String updatedAtField = "updatedAt";

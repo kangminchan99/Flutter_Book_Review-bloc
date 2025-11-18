@@ -38,4 +38,21 @@ class BookReviewInfoRepoImpl extends AbstractBookReviewInfoRepo {
         .doc(doc.docs.first.id)
         .update(data.toJson());
   }
+
+  @override
+  Future<List<BookReviewInfoModel>?> loadBookReviewRecentData() async {
+    var doc = await db
+        .collection(bookReviewInfoCollection)
+        .orderBy(updatedAtField, descending: true)
+        .limit(10)
+        .get();
+
+    if (doc.docs.isEmpty) {
+      return null;
+    } else {
+      return doc.docs
+          .map((e) => BookReviewInfoModel.fromJson(e.data()))
+          .toList();
+    }
+  }
 }
