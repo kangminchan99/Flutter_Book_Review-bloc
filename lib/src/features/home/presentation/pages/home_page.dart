@@ -1,6 +1,8 @@
 import 'package:bookreview/src/core/injections.dart';
 import 'package:bookreview/src/core/styles/app_colors.dart';
 import 'package:bookreview/src/core/styles/app_text_style.dart';
+import 'package:bookreview/src/features/home/cubit/recent_review_cubit.dart';
+import 'package:bookreview/src/features/home/cubit/top_reviewer_cubit.dart';
 import 'package:bookreview/src/features/home/presentation/widgets/recent_review_list_widget.dart';
 import 'package:bookreview/src/features/home/presentation/widgets/top_reviewer_list_widget.dart';
 import 'package:bookreview/src/features/login/presentation/cubit/auth_cubit.dart';
@@ -10,12 +12,21 @@ import 'package:bookreview/src/shared/presentation/widgets/custom_text_field_wid
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String routerPath = '/home';
   static const String routerName = 'home';
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final RefreshController _refreshController = RefreshController(
+    initialRefresh: false,
+  );
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
@@ -42,21 +53,32 @@ class HomePage extends StatelessWidget {
         ),
       ),
       centerTitle: false,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: CustomTextFieldWidget(
-                isEnabled: false,
-                onTap: () {
-                  context.pushNamed(SearchBookPage.routerName);
-                },
+      child: SmartRefresher(
+        controller: _refreshController,
+        onRefresh: () {
+          context.read<TopReviewerCubit>().refresh();
+          context.read<RecentReviewCubit>().refresh();
+          _refreshController.refreshCompleted();
+        },
+        onLoading: () {
+          _refreshController.loadComplete();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: CustomTextFieldWidget(
+                  isEnabled: false,
+                  onTap: () {
+                    context.pushNamed(SearchBookPage.routerName);
+                  },
+                ),
               ),
-            ),
-            RecentReviewListWidget(),
-            TopReviewerListWidget(),
-          ],
+              RecentReviewListWidget(),
+              TopReviewerListWidget(),
+            ],
+          ),
         ),
       ),
     );

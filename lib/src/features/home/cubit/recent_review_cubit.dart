@@ -15,6 +15,10 @@ class RecentReviewCubit extends Cubit<RecentReviewState> {
 
     emit(state.copyWith(results: result));
   }
+
+  void refresh() {
+    _loadBookReviewInfo();
+  }
 }
 
 class RecentReviewState extends Equatable {

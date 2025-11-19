@@ -13,6 +13,10 @@ class TopReviewerCubit extends Cubit<TopReviewerState> {
     var results = await sl<AbstractUserRepo>().loadTopReviewers();
     emit(state.copyWith(results: results));
   }
+
+  void refresh() {
+    _loadTopReviewers();
+  }
 }
 
 class TopReviewerState extends Equatable {
