@@ -30,7 +30,7 @@ class RecentReviewItemWidget extends StatelessWidget {
             child: Stack(
               children: [
                 SizedBox(
-                  height: 200,
+                  height: MediaQuery.of(context).size.width * 0.5,
                   width: double.infinity,
                   child: Hero(
                     tag: bookReviewInfoModel.bookInfo?.image ?? '',
