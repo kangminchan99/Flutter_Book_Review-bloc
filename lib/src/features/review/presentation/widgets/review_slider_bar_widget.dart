@@ -18,43 +18,44 @@ class ReviewSliderBarWidget extends StatefulWidget {
 
 class _ReviewSliderBarState extends State<ReviewSliderBarWidget> {
   final GlobalKey _parentKey = GlobalKey();
-  double position = 7;
-  double minX = 7;
-  double width = 0;
+
+  final double _thumbSize = 22; // 별 크기
+  double position = 0;
+  double minX = 0;
+  double maxX = 0;
+  double trackWidth = 0;
   double value = 0.0;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var parentContext = _parentKey.currentContext;
+      final parentContext = _parentKey.currentContext;
       if (parentContext != null) {
-        var parentBox = parentContext.findRenderObject() as RenderBox?;
-        width = parentBox!.size.width - 7;
+        final box = parentContext.findRenderObject() as RenderBox?;
+        final parentWidth = box!.size.width;
+
+        setState(() {
+          minX = _thumbSize / 2; // 11
+          maxX = parentWidth - _thumbSize / 2; // parentWidth - 11
+          trackWidth = maxX - minX;
+
+          _initValue();
+        });
       }
     });
   }
 
-  @override
-  void didUpdateWidget(ReviewSliderBarWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    initValue();
-  }
-
-  void initValue() {
-    setState(() {
-      position = widget.initValue * width / 10;
-      value = widget.initValue;
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void _initValue() {
+    if (trackWidth == 0) return;
+    value = widget.initValue;
+    position = minX + (value / 10) * trackWidth;
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      key: _parentKey, // 전체 영역 기준
       height: 45,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,49 +70,63 @@ class _ReviewSliderBarState extends State<ReviewSliderBarWidget> {
             child: Listener(
               behavior: HitTestBehavior.translucent,
               onPointerDown: (event) {
+                if (trackWidth == 0) return;
+                final dx = event.localPosition.dx;
                 setState(() {
-                  position = event.localPosition.dx.clamp(minX, width);
-                  value = position / width * 10;
+                  position = dx.clamp(minX, maxX);
+                  value = ((position - minX) / trackWidth) * 10;
                 });
                 widget.onChange(value);
               },
               child: Stack(
                 children: [
-                  Container(
-                    key: _parentKey,
-                    margin: const EdgeInsets.only(top: 9),
-                    height: 5,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Color(0xff434343),
+                  // 회색 바: minX ~ maxX 까지만
+                  Positioned(
+                    left: minX,
+                    top: 9,
+                    width: trackWidth,
+                    child: Container(
+                      height: 5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color(0xff434343),
+                      ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 9),
-                    height: 5,
-                    width: position,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Color(0xffF4AA2B),
+                  // 노란 바: minX ~ position
+                  Positioned(
+                    left: minX,
+                    top: 9,
+                    width: trackWidth == 0
+                        ? 0
+                        : (position - minX).clamp(0, trackWidth),
+                    child: Container(
+                      height: 5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color(0xffF4AA2B),
+                      ),
                     ),
                   ),
+                  // 별
                   Positioned(
                     top: 0,
-                    left: position - 11,
+                    left: position - _thumbSize / 2,
                     child: GestureDetector(
                       onPanUpdate: (details) {
+                        if (trackWidth == 0) return;
                         setState(() {
-                          position = (details.delta.dx + position).clamp(
+                          position = (position + details.delta.dx).clamp(
                             minX,
-                            width,
+                            maxX,
                           );
-                          value = position / width * 10;
+                          value = ((position - minX) / trackWidth) * 10;
                         });
                         widget.onChange(value);
                       },
                       child: SvgPicture.asset(
                         'assets/svg/icons/icon_star.svg',
-                        width: 22,
+                        width: _thumbSize,
                       ),
                     ),
                   ),
